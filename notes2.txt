@@ -1,0 +1,59 @@
+Neural network architecture
+Play around preprocessing techniques (normalization, rgb to grayscale, etc)
+Number of examples per label (some have more than others).
+Generate fake data.
+
+There's a lot you can do.
+
+Add more conv layers,
+try out different learning rates,
+add dropouts,
+data augmentation,
+try different width for the fc layer,
+try different filter sizes and depths,
+or just increase number of epochs,
+quite a bit of the work is experimenting with different architectures
+and tuning different parameters.
+The two main things you should implement no matter
+are normalization and
+making sure the weights are being initialized with small values
+(truncated normal with low std dev of 0.01).
+Apart from that dropouts are also good (and recommended)
+for reducing overfitting
+
+Round 1:
+Implement the Lenet model.
+
+Preprocessing:
+- normalized the color channels by dividing each channel value by 256
+
+I found that training after 40 epochs leads to a plateau in the validation accuracy. So i used that for the final value.
+
+Learning rate
+- I initially used
+
+
+Without normalization:
+EPOCH 40 ...
+Validation Accuracy = 0.898
+
+Model saved
+Test Accuracy = 0.829
+
+With normalization:
+
+EPOCH 40 ...
+Validation Accuracy = 0.982
+
+Model saved
+Test Accuracy = 0.902
+
+===========
+
+EPOCH 40 ...
+Validation Accuracy = 0.977
+
+Model saved
+Test Accuracy = 0.890
+
+
