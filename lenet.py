@@ -1,11 +1,12 @@
 from tensorflow.contrib.layers import flatten
+import tensorflow as tf
 
 # TODO: use mu and sigma when calling truncated_normal
 
-def LeNet(x):
+def LeNet(x, image_size, image_channels, n_classes):
     # Hyperparameters
     mu = 0
-    sigma = 0.1
+    sigma = 0.01
 
     print(x)
 
@@ -18,7 +19,7 @@ def LeNet(x):
     # out_height = ceil(float(32 - 5 + 1) / float(1)) = 28
     # out_width = ceil(float(32 - 5 + 1) / float(1)) = 28
 
-    conv1_W = tf.Variable(tf.truncated_normal([5, 5, 1, 6]))
+    conv1_W = tf.Variable(tf.truncated_normal([5, 5, image_channels, 6], mean = mu, stddev = sigma))
     conv1_b = tf.Variable(tf.zeros(6))
 
     strides = 1
@@ -40,7 +41,7 @@ def LeNet(x):
     print(conv1)
 
     # TODO: Layer 2: Convolutional. Output = 10x10x16.
-    conv2_W = tf.Variable(tf.truncated_normal([5, 5, 6, 16]))
+    conv2_W = tf.Variable(tf.truncated_normal([5, 5, 6, 16], mean = mu, stddev = sigma))
     conv2_b = tf.Variable(tf.zeros(16))
 
     strides = 1
@@ -71,7 +72,7 @@ def LeNet(x):
 
 
     # TODO: Layer 3: Fully Connected. Input = 400. Output = 120.
-    fc1_W = tf.Variable(tf.truncated_normal([5*5*16, 120]))
+    fc1_W = tf.Variable(tf.truncated_normal([5*5*16, 120], mean = mu, stddev = sigma))
     fc1_b = tf.Variable(tf.zeros(120))
     fc1 = tf.add(tf.matmul(flattened_conv2, fc1_W), fc1_b)
 
@@ -87,8 +88,8 @@ def LeNet(x):
     fc2 = tf.nn.relu(fc2)
 
     # TODO: Layer 5: Fully Connected. Input = 84. Output = 10.
-    fc3_W = tf.Variable(tf.truncated_normal([84, 10]))
-    fc3_b = tf.Variable(tf.zeros(10))
+    fc3_W = tf.Variable(tf.truncated_normal([84, n_classes]))
+    fc3_b = tf.Variable(tf.zeros(n_classes))
     logits = tf.add(tf.matmul(fc2, fc3_W), fc3_b)
 
     return logits
