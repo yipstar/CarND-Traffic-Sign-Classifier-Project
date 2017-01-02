@@ -9,20 +9,23 @@ def get_test_data():
 
     for f in os.listdir("test_images"):
         parts = os.path.splitext(f)
-        label = parts[0].split("_")[1]
+        label = int(parts[0].split("_")[1])
 
         image = Image.open("test_images/{0}".format(f))
-        data = np.asarray(image, dtype="int32" )
+        # print(image)
+
+        data = np.array(image, dtype="int32" )
+
+        print(data.shape)
 
         y_test_images.append(label)
         X_test_images.append(data)
 
+    # print(X_test_images[0])
+    # print(y_test_images[0])
 
-    X_test_images = np.array(X_test_images)
     y_test_images = np.array(y_test_images)
-
-    print(y_test_images)
-    print(X_test_images)
+    X_test_images = np.array(X_test_images)
 
     return (X_test_images, y_test_images)
 
