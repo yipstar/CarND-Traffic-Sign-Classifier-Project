@@ -17,10 +17,13 @@ def get_test_data():
         y_test_images.append(label)
         X_test_images.append(data)
 
-        X_test_images = np.array(X_test_images)
-        y_test_images = np.array(y_test_images)
 
-        print(y_test_images)
-        print(X_test_images)
+    X_test_images = np.array(X_test_images)
+    y_test_images = np.array(y_test_images)
+
+    print(y_test_images)
+    print(X_test_images)
 
     return (X_test_images, y_test_images)
+
+get_test_data()
