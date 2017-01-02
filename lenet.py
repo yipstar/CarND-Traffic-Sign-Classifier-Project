@@ -1,15 +1,15 @@
-from tensorflow.contrib.layers import flatten
+import tensorflow as tf
+# from tensorflow.contrib.layers import flatten
 
-# TODO: use mu and sigma when calling truncated_normal
+def LeNet(x, image_size, num_channels, num_classes):
 
-def LeNet(x):
     # Hyperparameters
     mu = 0
-    sigma = 0.1
+    sigma = 0.01
 
     print(x)
 
-    # TODO: Layer 1: Convolutional. Input = 32x32x1. Output = 28x28x6.
+    # TODO: Layer 1: Convolutional. Input = 32x32x3. Output = 28x28x6.
     # [height, width, input_depth, output_depth]
 
     # out_height = ceil(float(in_height - filter_height + 1) / float(strides[1]))
@@ -18,7 +18,7 @@ def LeNet(x):
     # out_height = ceil(float(32 - 5 + 1) / float(1)) = 28
     # out_width = ceil(float(32 - 5 + 1) / float(1)) = 28
 
-    conv1_W = tf.Variable(tf.truncated_normal([5, 5, 1, 6]))
+    conv1_W = tf.Variable(tf.truncated_normal([5, 5, num_channels, 6]))
     conv1_b = tf.Variable(tf.zeros(6))
 
     strides = 1
@@ -86,9 +86,10 @@ def LeNet(x):
     # TODO: Activation.
     fc2 = tf.nn.relu(fc2)
 
-    # TODO: Layer 5: Fully Connected. Input = 84. Output = 10.
-    fc3_W = tf.Variable(tf.truncated_normal([84, 10]))
-    fc3_b = tf.Variable(tf.zeros(10))
+    # TODO: Layer 5: Fully Connected. Input = 84. Output = n_classes.
+    output_classes = num_classes
+    fc3_W = tf.Variable(tf.truncated_normal([84, output_classes]))
+    fc3_b = tf.Variable(tf.zeros(output_classes))
     logits = tf.add(tf.matmul(fc2, fc3_W), fc3_b)
 
     return logits
