@@ -36,32 +36,12 @@ print("Number of classes =", n_classes)
 
 ### Preprocess the data here.
 
-# X_normalized = np.ndarray(X_dataset.shape, dtype=np.float32)
-# X_normalized[:, :, :, 0] = X_dataset[:, :, :, 0] / 256
-# X_normalized[:, :, :, 1] = X_dataset[:, :, :, 1] / 256
-# X_normalized[:, :, :, 2] = X_dataset[:, :, :, 2] / 256
-# print(X_normalized[:, :, :, 0])
+from normalize import normalize
+X_normalized = normalize(X_dataset)
 
-# X_normalized = X_dataset
-
-# Try normalizing to grayscale
-#gray = np.mean(rgb, -1)
-
-# X_normalized[:, :, :, 0] = X_dataset[:, :, :, 0] / 256
-from skimage import color
-
-# Grayscale and normalize
-# 0.2125 R + 0.7154 G + 0.0721 B
-# 0.299 R + 0.587 G + 0.114 B
-
-X_normalized = np.ndarray(X_dataset.shape, dtype=np.float32)
-X_normalized[:, :, :, 0] = (((X_dataset[:, :, :, 0] * 0.299) + (X_dataset[:, :, :, 1] * 0.587) + (X_dataset[:, :, :, 2] * 0.299)) / 3) / 256
-X_normalized[:, :, :, 1] = (((X_dataset[:, :, :, 0] * 0.299) + (X_dataset[:, :, :, 1] * 0.587) + (X_dataset[:, :, :, 2] * 0.587)) / 3) / 256
-X_normalized[:, :, :, 2] = (((X_dataset[:, :, :, 0] * 0.299) + (X_dataset[:, :, :, 1] * 0.587) + (X_dataset[:, :, :, 2] * 0.114)) / 3) / 256
-
-# print("normalized shape")
-# print(X_normalized.shape)
-print(X_normalized[:, :, :, 0])
+from test_images import get_test_data
+X_my_test, y_my_test = get_test_data()
+X_my_test = normalize(X_my_test)
 
 ### Generate data additional data (OPTIONAL!)
 ### and split the data into training/validation/testing sets here.
@@ -69,13 +49,13 @@ print(X_normalized[:, :, :, 0])
 
 # Create a validation set
 
-# Use 10% of training examples as validation
-# X_train, X_valid, y_train, y_valid = train_test_split(X_normalized, y_dataset,
-#                                                       test_size=0.10,
+# # Use 33% of training examples as validation
+# X_train, X_valid, y_train, y_valid = train_test_split(X_dataset, y_dataset,
+#                                                       test_size=0.33,
 #                                                       random_state=42)
 
-# Create validation set using 1 random image from each track
-from validation_from_tracks2 import train_test_split_by_track
+# Create validation set using 1 random track from each class
+from validation import train_test_split_by_track
 
 X_train, X_valid, y_train, y_valid = train_test_split_by_track(X_normalized, y_dataset)
 
@@ -89,7 +69,7 @@ from tensorflow.contrib.layers import flatten
 from lenet import LeNet
 
 # see the LeNet function above
-EPOCHS = 30
+EPOCHS = 40
 BATCH_SIZE = 128
 
 ### Train your model here.
@@ -100,7 +80,8 @@ y = tf.placeholder(tf.int32, (None))
 
 one_hot_y = tf.one_hot(y, n_classes)
 
-rate = 0.001
+# rate = 0.001
+rate = 0.0001
 
 image_size = 32
 image_channels = X_train.shape[3]
@@ -155,4 +136,21 @@ with tf.Session() as sess:
 
     test_accuracy = evaluate(X_test, y_test)
     print("Test Accuracy = {:.3f}".format(test_accuracy))
+
+    my_test_accuracy = evaluate(X_my_test, y_my_test)
+    print("My Images Test Accuracy = {:.3f}".format(my_test_accuracy))
+
+    my_test_logits = sess.run(logits, feed_dict={x: X_my_test, y: y_my_test})
+
+    soft_predictions = sess.run(tf.nn.softmax(my_test_logits))
+    print(soft_predictions)
+
+    # predictions = sess.run(tf.argmax(my_test_logits, 1))
+    # print(predictions)
+
+    # my_one_hot_arg_max = sess.run(tf.argmax(one_hot_y, 1), feed_dict={x: X_my_test, y: y_my_test})
+
+    # print(my_test_logits)
+    # print(my_logits_arg_max)
+    # print(my_one_hot_arg_max)
 

@@ -4,4 +4,10 @@ data
 models
 *.swp
 *.p
-/__pycache__/lenet.cpython-35.pyc
+/__pycache__/*
+checkpoint
+lenet.data*
+lenet.index
+lenet.meta
+traffic-signs-data.zip
+

@@ -16,13 +16,13 @@ def get_test_data():
 
         data = np.array(image, dtype="int32" )
 
-        print(data.shape)
+        # print(data.shape)
 
         y_test_images.append(label)
         X_test_images.append(data)
 
     # print(X_test_images[0])
-    # print(y_test_images[0])
+    # print(y_test_images)
 
     y_test_images = np.array(y_test_images)
     X_test_images = np.array(X_test_images)

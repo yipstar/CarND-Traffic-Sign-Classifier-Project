@@ -57,3 +57,23 @@ Model saved
 Test Accuracy = 0.890
 
 
+===========================
+Round 2: Try paper ideas
+- With validation set as 1 random track per class
+
+EPOCH 37 ...
+Validation Accuracy = 0.917
+
+EPOCH 38 ...
+Validation Accuracy = 0.913
+
+EPOCH 39 ...
+Validation Accuracy = 0.912
+
+EPOCH 40 ...
+Validation Accuracy = 0.941
+
+Model saved
+Test Accuracy = 0.877
+
+

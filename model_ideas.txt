@@ -1,0 +1,3 @@
+Conv → MaxPool → BatchNorm → Conv →MaxPool →BatchNorm → Conv → Maxpool → FullyConnected → Softmax
+
+I used two conv layers, and one fully connected.
