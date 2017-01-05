@@ -80,8 +80,8 @@ y = tf.placeholder(tf.int32, (None))
 
 one_hot_y = tf.one_hot(y, n_classes)
 
-# rate = 0.001
-rate = 0.0001
+rate = 0.001
+# rate = 0.0001
 
 image_size = 32
 image_channels = X_train.shape[3]
@@ -131,7 +131,7 @@ with tf.Session() as sess:
         saver
     except NameError:
         saver = tf.train.Saver()
-    saver.save(sess, 'lenet')
+    saver.save(sess, 'lenet2')
     print("Model saved")
 
     test_accuracy = evaluate(X_test, y_test)
@@ -144,6 +144,8 @@ with tf.Session() as sess:
 
     soft_predictions = sess.run(tf.nn.softmax(my_test_logits))
     print(soft_predictions)
+
+    top_k = sess.run(tf.nn.top_k(new_predictions, 5))
 
     # predictions = sess.run(tf.argmax(my_test_logits, 1))
     # print(predictions)
