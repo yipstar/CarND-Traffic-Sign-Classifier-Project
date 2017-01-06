@@ -145,14 +145,5 @@ with tf.Session() as sess:
     soft_predictions = sess.run(tf.nn.softmax(my_test_logits))
     print(soft_predictions)
 
-    top_k = sess.run(tf.nn.top_k(new_predictions, 5))
-
-    # predictions = sess.run(tf.argmax(my_test_logits, 1))
-    # print(predictions)
-
-    # my_one_hot_arg_max = sess.run(tf.argmax(one_hot_y, 1), feed_dict={x: X_my_test, y: y_my_test})
-
-    # print(my_test_logits)
-    # print(my_logits_arg_max)
-    # print(my_one_hot_arg_max)
-
+    top_k = sess.run(tf.nn.top_k(soft_predictions, 5))
+    print(top_k)
